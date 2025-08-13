@@ -1,0 +1,1 @@
+import React from 'react'; const CategoryPage: React.FC = () => { return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="text-center"><h2 className="text-3xl font-bold text-gray-900">CategoryPage</h2><p className="mt-2 text-gray-600">Page coming soon...</p></div></div>; }; export default CategoryPage;

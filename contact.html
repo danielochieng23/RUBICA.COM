@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Rubica.com</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .contact-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .contact-container {
+            padding: 3rem 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-form h2,
+        .contact-info h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .contact-item i {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-right: 1rem;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .contact-item-content h4 {
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+        
+        .contact-item-content p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .support-hours {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .support-hours h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .hours-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .faq-section {
+            margin-top: 3rem;
+        }
+        
+        .faq-item {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .faq-question:hover {
+            background: #e9ecef;
+        }
+        
+        .faq-answer {
+            padding: 1.5rem;
+            display: none;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        .social-media {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html">Rubica.com</a></h1>
+                <span class="tagline">Your Premium Adult Classified Portal</span>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="post-ad.html">Post Ad</a></li>
+                    <li><a href="#" id="loginBtn">Login</a></li>
+                    <li><a href="#" id="registerBtn">Register</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Header -->
+    <section class="contact-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with our support team</p>
+        </div>
+    </section>
+
+    <!-- Contact Container -->
+    <section class="contact-container">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h2><i class="fas fa-envelope"></i> Send us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Your full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+91 9876543210">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="billing">Billing Question</option>
+                                <option value="report">Report Content</option>
+                                <option value="partnership">Business Partnership</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required placeholder="Please describe your inquiry in detail..."></textarea>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Subscribe to our newsletter for updates</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h2><i class="fas fa-info-circle"></i> Get in Touch</h2>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-item-content">
+                            <h4>Email Support</h4>
+                            <p>support@rubica.com</p>
+                            <p>Response within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="contact-item-content">
+                            <h4>Phone Support</h4>
+                            <p>+91 9876543210</p>
+                            <p>Available 24/7</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <div class="contact-item-content">
+                            <h4>WhatsApp Support</h4>
+                            <p>+91 9876543210</p>
+                            <p>Instant messaging support</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-item-content">
+                            <h4>Business Address</h4>
+                            <p>123 Business District</p>
+                            <p>Mumbai, Maharashtra 400001</p>
+                        </div>
+                    </div>
+
+                    <div class="social-media">
+                        <h3>Follow Us</h3>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Hours -->
+            <div class="support-hours">
+                <h3><i class="fas fa-clock"></i> Support Hours</h3>
+                <p>Our support team is available to help you</p>
+                <div class="hours-grid">
+                    <div class="hours-item">
+                        <h4>Email Support</h4>
+                        <p>24/7 - Responses within 24 hours</p>
+                    </div>
+                    <div class="hours-item">
+                        <h4>Phone Support</h4>
+                        <p>24/7 - Immediate assistance</p>
+                    </div>
+                    <div class="hours-item">
+                        <h4>WhatsApp Support</h4>
+                        <p>9 AM - 11 PM IST</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I post an ad on Rubica.com?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        To post an ad, click on "Post Ad" in the navigation menu, fill out the required information including category, description, contact details, and upload photos. Choose your preferred package and submit for review. Your ad will be live within 24 hours after approval.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What are the posting guidelines?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        All ads must comply with local laws and our community guidelines. Users must be 18+ years old. No illegal services, false information, or inappropriate content is allowed. Ads are reviewed before publication to ensure compliance.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How much does it cost to post an ad?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        We offer three packages: Basic (Free) with 30-day visibility and up to 3 images, Premium (₹499) with 60-day visibility and featured placement, and VIP (₹999) with 90-day visibility, top placement, and verified badge.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How can I verify my account?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Account verification is available for Premium and VIP package users. Contact our support team with your ID proof and ad details. Verified accounts receive a special badge and higher visibility in search results.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is my personal information safe?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Yes, we take privacy seriously. Your personal information is encrypted and stored securely. We never share your data with third parties without your consent. Read our Privacy Policy for detailed information about data handling.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I report inappropriate content?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        If you encounter inappropriate content, use the "Report" button on the ad or contact our support team immediately. We investigate all reports within 24 hours and take appropriate action including content removal and account suspension if necessary.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Rubica.com</h3>
+                    <p>Your premium adult classified portal connecting people across India.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="post-ad.html">Post Ad</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Rubica.com. All rights reserved. | 18+ Only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Contact page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            setupContactForm();
+            setupFAQ();
+        });
+
+        function setupContactForm() {
+            const form = document.getElementById('contactForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateContactForm()) {
+                    submitContactForm();
+                }
+            });
+        }
+
+        function validateContactForm() {
+            const requiredFields = ['name', 'email', 'subject', 'message'];
+            let isValid = true;
+
+            requiredFields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                const value = field.value.trim();
+
+                if (!value) {
+                    showFieldError(field, 'This field is required');
+                    isValid = false;
+                } else {
+                    clearFieldError(field);
+                }
+            });
+
+            // Email validation
+            const emailField = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailField.value && !emailRegex.test(emailField.value)) {
+                showFieldError(emailField, 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function showFieldError(field, message) {
+            clearFieldError(field);
+            
+            field.style.borderColor = '#e74c3c';
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'field-error';
+            errorDiv.textContent = message;
+            errorDiv.style.cssText = 'color: #e74c3c; font-size: 0.8rem; margin-top: 0.25rem;';
+            
+            field.parentElement.appendChild(errorDiv);
+        }
+
+        function clearFieldError(field) {
+            field.style.borderColor = '';
+            const existingError = field.parentElement.querySelector('.field-error');
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+
+        function submitContactForm() {
+            const submitBtn = document.querySelector('#contactForm button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Show success message
+                showSuccessMessage();
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+                // Clear any remaining errors
+                document.querySelectorAll('.field-error').forEach(error => error.remove());
+                document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea').forEach(field => {
+                    field.style.borderColor = '';
+                });
+
+            }, 2000);
+        }
+
+        function showSuccessMessage() {
+            const message = document.createElement('div');
+            message.className = 'alert alert-success';
+            message.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                Thank you for your message! We'll get back to you within 24 hours.
+            `;
+            message.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10001;
+                max-width: 350px;
+                padding: 1rem;
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+                border-radius: 6px;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            document.body.appendChild(message);
+
+            setTimeout(() => {
+                message.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => message.remove(), 300);
+            }, 5000);
+        }
+
+        function setupFAQ() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    // Close all other answers
+                    faqQuestions.forEach(otherQuestion => {
+                        if (otherQuestion !== this) {
+                            otherQuestion.nextElementSibling.classList.remove('active');
+                            otherQuestion.querySelector('i').style.transform = 'rotate(0deg)';
+                        }
+                    });
+                    
+                    // Toggle current answer
+                    answer.classList.toggle('active');
+                    
+                    if (answer.classList.contains('active')) {
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .faq-question i {
+                transition: transform 0.3s ease;
+            }
+            .faq-answer {
+                transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

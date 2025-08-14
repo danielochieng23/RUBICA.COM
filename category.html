@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category - Rubica.com</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .category-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .filters-bar {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+        
+        .filters-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .filter-group select {
+            padding: 0.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            background: white;
+            min-width: 150px;
+        }
+        
+        .sort-options {
+            margin-left: auto;
+        }
+        
+        .results-info {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .results-count {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .breadcrumb {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .ads-container {
+            padding: 2rem 0;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 4rem 0;
+            color: #666;
+        }
+        
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .view-toggle button {
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .view-toggle button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .ads-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+        
+        .ads-grid.list-view .ad-card {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1.5rem;
+            text-align: left;
+        }
+        
+        .ads-grid.list-view .ad-image {
+            height: 150px;
+        }
+        
+        @media (max-width: 768px) {
+            .filters-container {
+                justify-content: center;
+            }
+            
+            .sort-options {
+                margin-left: 0;
+                order: -1;
+                width: 100%;
+            }
+            
+            .ads-grid.list-view .ad-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html">Rubica.com</a></h1>
+                <span class="tagline">Your Premium Adult Classified Portal</span>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="post-ad.html">Post Ad</a></li>
+                    <li><a href="#" id="loginBtn">Login</a></li>
+                    <li><a href="#" id="registerBtn">Register</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Header -->
+    <section class="category-header">
+        <div class="container">
+            <h1 id="categoryTitle">Category</h1>
+            <p class="category-subtitle" id="categorySubtitle">Browse all listings in this category</p>
+        </div>
+    </section>
+
+    <!-- Filters Bar -->
+    <section class="filters-bar">
+        <div class="container">
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="cityFilter">City:</label>
+                    <select id="cityFilter">
+                        <option value="">All Cities</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="pune">Pune</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="ahmedabad">Ahmedabad</option>
+                        <option value="goa">Goa</option>
+                        <option value="jaipur">Jaipur</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="priceFilter">Price Range:</label>
+                    <select id="priceFilter">
+                        <option value="">All Prices</option>
+                        <option value="0-2000">Under ₹2,000</option>
+                        <option value="2000-5000">₹2,000 - ₹5,000</option>
+                        <option value="5000-10000">₹5,000 - ₹10,000</option>
+                        <option value="10000+">Above ₹10,000</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="availabilityFilter">Availability:</label>
+                    <select id="availabilityFilter">
+                        <option value="">All</option>
+                        <option value="online">Online Now</option>
+                        <option value="verified">Verified Only</option>
+                        <option value="featured">Featured Only</option>
+                    </select>
+                </div>
+
+                <div class="sort-options">
+                    <div class="filter-group">
+                        <label for="sortBy">Sort by:</label>
+                        <select id="sortBy">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="featured">Featured First</option>
+                        </select>
+                    </div>
+                    
+                    <div class="view-toggle">
+                        <button id="gridView" class="active" title="Grid View">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button id="listView" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Info -->
+    <section class="results-info">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> > <span id="breadcrumbCategory">Category</span>
+            </div>
+            <div class="results-count" id="resultsCount">
+                Loading results...
+            </div>
+        </div>
+    </section>
+
+    <!-- Ads Container -->
+    <section class="ads-container">
+        <div class="container">
+            <div class="ads-grid" id="adsGrid">
+                <!-- Ads will be loaded here -->
+            </div>
+
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No ads found</h3>
+                <p>Try adjusting your filters or search in a different category</p>
+                <a href="post-ad.html" class="btn btn-primary" style="margin-top: 1rem;">Post the First Ad</a>
+            </div>
+
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Rubica.com</h3>
+                    <p>Your premium adult classified portal connecting people across India.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="post-ad.html">Post Ad</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Rubica.com. All rights reserved. | 18+ Only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Category page specific functionality
+        let currentCategory = '';
+        let currentPage = 1;
+        let adsPerPage = 12;
+        let filteredAds = [];
+        let allAds = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCategoryPage();
+        });
+
+        function initializeCategoryPage() {
+            // Get category from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentCategory = urlParams.get('cat') || 'all';
+            
+            // Set page title and header
+            updatePageInfo();
+            
+            // Load ads data
+            loadAdsData();
+            
+            // Setup event listeners
+            setupFilterListeners();
+            setupViewToggle();
+        }
+
+        function updatePageInfo() {
+            const categoryNames = {
+                'call-girls': 'Call Girls',
+                'massages': 'Massages', 
+                'male-escorts': 'Male Escorts',
+                'transsexual': 'Transsexual',
+                'adult-meetings': 'Adult Meetings',
+                'bdsm': 'BDSM',
+                'all': 'All Categories'
+            };
+
+            const categoryDescriptions = {
+                'call-girls': 'Premium escort services and companions',
+                'massages': 'Professional massage and therapy services',
+                'male-escorts': 'Male companion and escort services',
+                'transsexual': 'Transgender escort services',
+                'adult-meetings': 'Casual encounters and adult meetings',
+                'bdsm': 'Fetish and BDSM services',
+                'all': 'Browse all available categories'
+            };
+
+            const title = categoryNames[currentCategory] || 'Category';
+            const subtitle = categoryDescriptions[currentCategory] || 'Browse listings';
+
+            document.getElementById('categoryTitle').textContent = title;
+            document.getElementById('categorySubtitle').textContent = subtitle;
+            document.getElementById('breadcrumbCategory').textContent = title;
+            document.title = `${title} - Rubica.com`;
+        }
+
+        function loadAdsData() {
+            // Use the same sample data from main.js or load from API
+            allAds = [
+                {
+                    id: 1,
+                    title: "Premium Escort Service - Mumbai",
+                    description: "Professional and discrete service available 24/7. Experienced and educated companions.",
+                    category: "call-girls",
+                    city: "mumbai",
+                    price: 5000,
+                    priceDisplay: "₹5,000",
+                    image: "https://via.placeholder.com/300x200?text=Premium+Service",
+                    featured: true,
+                    verified: true,
+                    online: true,
+                    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+                },
+                {
+                    id: 2,
+                    title: "Relaxing Body Massage - Delhi",
+                    description: "Professional therapeutic massage services. Swedish, deep tissue, and aromatherapy available.",
+                    category: "massages",
+                    city: "delhi",
+                    price: 2500,
+                    priceDisplay: "₹2,500",
+                    image: "https://via.placeholder.com/300x200?text=Massage+Therapy",
+                    featured: false,
+                    verified: true,
+                    online: false,
+                    postedDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+                },
+                {
+                    id: 3,
+                    title: "Male Companion Services - Bangalore",
+                    description: "Professional male escort for social events, dinners, and companionship.",
+                    category: "male-escorts",
+                    city: "bangalore",
+                    price: 3500,
+                    priceDisplay: "₹3,500",
+                    image: "https://via.placeholder.com/300x200?text=Male+Escort",
+                    featured: true,
+                    verified: false,
+                    online: true,
+                    postedDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+                },
+                {
+                    id: 4,
+                    title: "Trans Escort - Chennai",
+                    description: "Beautiful and sophisticated transgender escort available for companionship.",
+                    category: "transsexual",
+                    city: "chennai",
+                    price: 4000,
+                    priceDisplay: "₹4,000",
+                    image: "https://via.placeholder.com/300x200?text=Trans+Escort",
+                    featured: false,
+                    verified: true,
+                    online: true,
+                    postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+                },
+                {
+                    id: 5,
+                    title: "Adult Meetings - Goa",
+                    description: "Looking for casual encounters and adult fun. Discrete and no strings attached.",
+                    category: "adult-meetings",
+                    city: "goa",
+                    price: 1500,
+                    priceDisplay: "₹1,500",
+                    image: "https://via.placeholder.com/300x200?text=Adult+Meeting",
+                    featured: false,
+                    verified: false,
+                    online: false,
+                    postedDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+                },
+                {
+                    id: 6,
+                    title: "BDSM Services - Mumbai",
+                    description: "Professional dominatrix offering BDSM experiences. Safe, sane, and consensual.",
+                    category: "bdsm",
+                    city: "mumbai",
+                    price: 6000,
+                    priceDisplay: "₹6,000",
+                    image: "https://via.placeholder.com/300x200?text=BDSM+Services",
+                    featured: true,
+                    verified: true,
+                    online: true,
+                    postedDate: new Date()
+                }
+            ];
+
+            applyFilters();
+        }
+
+        function setupFilterListeners() {
+            const filters = ['cityFilter', 'priceFilter', 'availabilityFilter', 'sortBy'];
+            
+            filters.forEach(filterId => {
+                const filter = document.getElementById(filterId);
+                if (filter) {
+                    filter.addEventListener('change', applyFilters);
+                }
+            });
+        }
+
+        function setupViewToggle() {
+            const gridView = document.getElementById('gridView');
+            const listView = document.getElementById('listView');
+            const adsGrid = document.getElementById('adsGrid');
+
+            gridView.addEventListener('click', function() {
+                gridView.classList.add('active');
+                listView.classList.remove('active');
+                adsGrid.classList.remove('list-view');
+            });
+
+            listView.addEventListener('click', function() {
+                listView.classList.add('active');
+                gridView.classList.remove('active');
+                adsGrid.classList.add('list-view');
+            });
+        }
+
+        function applyFilters() {
+            let filtered = [...allAds];
+
+            // Filter by category
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(ad => ad.category === currentCategory);
+            }
+
+            // Filter by city
+            const cityFilter = document.getElementById('cityFilter').value;
+            if (cityFilter) {
+                filtered = filtered.filter(ad => ad.city === cityFilter);
+            }
+
+            // Filter by price range
+            const priceFilter = document.getElementById('priceFilter').value;
+            if (priceFilter) {
+                if (priceFilter === '10000+') {
+                    filtered = filtered.filter(ad => ad.price >= 10000);
+                } else {
+                    const [min, max] = priceFilter.split('-').map(Number);
+                    filtered = filtered.filter(ad => ad.price >= min && ad.price <= max);
+                }
+            }
+
+            // Filter by availability
+            const availabilityFilter = document.getElementById('availabilityFilter').value;
+            if (availabilityFilter === 'online') {
+                filtered = filtered.filter(ad => ad.online);
+            } else if (availabilityFilter === 'verified') {
+                filtered = filtered.filter(ad => ad.verified);
+            } else if (availabilityFilter === 'featured') {
+                filtered = filtered.filter(ad => ad.featured);
+            }
+
+            // Sort results
+            const sortBy = document.getElementById('sortBy').value;
+            filtered.sort((a, b) => {
+                switch (sortBy) {
+                    case 'newest':
+                        return b.postedDate - a.postedDate;
+                    case 'oldest':
+                        return a.postedDate - b.postedDate;
+                    case 'price-low':
+                        return a.price - b.price;
+                    case 'price-high':
+                        return b.price - a.price;
+                    case 'featured':
+                        return b.featured - a.featured;
+                    default:
+                        return b.postedDate - a.postedDate;
+                }
+            });
+
+            filteredAds = filtered;
+            currentPage = 1;
+            displayResults();
+        }
+
+        function displayResults() {
+            const adsGrid = document.getElementById('adsGrid');
+            const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
+
+            if (filteredAds.length === 0) {
+                adsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                resultsCount.textContent = 'No results found';
+                return;
+            }
+
+            adsGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            // Pagination
+            const startIndex = (currentPage - 1) * adsPerPage;
+            const endIndex = startIndex + adsPerPage;
+            const pageAds = filteredAds.slice(startIndex, endIndex);
+
+            // Display ads
+            adsGrid.innerHTML = pageAds.map(ad => createAdCard(ad)).join('');
+
+            // Update results count
+            resultsCount.textContent = `Showing ${startIndex + 1}-${Math.min(endIndex, filteredAds.length)} of ${filteredAds.length} results`;
+
+            // Generate pagination
+            generatePagination();
+        }
+
+        function createAdCard(ad) {
+            const timeAgo = getTimeAgo(ad.postedDate);
+            const premiumClass = ad.featured ? 'premium-ad' : '';
+            const onlineStatus = ad.online ? '<span class="online-status"></span>' : '';
+            const verifiedBadge = ad.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i>Verified</span>' : '';
+            const featuredBadge = ad.featured ? '<div class="featured-badge">Featured</div>' : '';
+            
+            return `
+                <div class="ad-card ${premiumClass}" onclick="viewAd(${ad.id})">
+                    ${featuredBadge}
+                    <div class="ad-image">
+                        <img src="${ad.image}" alt="${ad.title}" loading="lazy">
+                    </div>
+                    <div class="ad-content">
+                        <h3 class="ad-title">${ad.title}</h3>
+                        <div class="ad-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${ad.city.charAt(0).toUpperCase() + ad.city.slice(1)}
+                        </div>
+                        <p class="ad-description">${ad.description}</p>
+                        <div class="ad-price">${ad.priceDisplay}</div>
+                        <div class="ad-meta">
+                            <span>${timeAgo}</span>
+                            <span>${onlineStatus}${verifiedBadge}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generatePagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredAds.length / adsPerPage);
+
+            if (totalPages <= 1) {
+                pagination.style.display = 'none';
+                return;
+            }
+
+            pagination.style.display = 'flex';
+
+            let paginationHTML = '';
+
+            // Previous button
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    paginationHTML += `
+                        <button onclick="changePage(${i})" ${i === currentPage ? 'class="active"' : ''}>
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    paginationHTML += '<button disabled>...</button>';
+                }
+            }
+
+            // Next button
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            if (page < 1 || page > Math.ceil(filteredAds.length / adsPerPage)) {
+                return;
+            }
+
+            currentPage = page;
+            displayResults();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) return '1 day ago';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
+            return `${Math.ceil(diffDays / 30)} months ago`;
+        }
+
+        function viewAd(adId) {
+            window.location.href = `ad-details.html?id=${adId}`;
+        }
+    </script>
+</body>
+</html>

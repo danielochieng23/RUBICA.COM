@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'RUBICA - Adult Classifieds' %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <i class="fas fa-phone"></i> +91 9876543210
+                        <a href="mailto:info@rubica.com"><i class="fas fa-envelope"></i> info@rubica.com</a>
+                    </div>
+                    <div>
+                        <a href="/about">About</a>
+                        <a href="/contact">Contact</a>
+                        <a href="/terms">Terms</a>
+                        <a href="/privacy">Privacy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="header-content">
+                    <a href="/" class="logo">RUBICA</a>
+                    <nav>
+                        <ul class="nav-menu">
+                            <li><a href="/listings/category/call-girls">Call Girls</a></li>
+                            <li><a href="/listings/category/massages">Massages</a></li>
+                            <li><a href="/listings/category/male-escorts">Male Escorts</a></li>
+                            <li><a href="/listings/category/transsexual">Transsexual</a></li>
+                            <li><a href="/listings/category/adult-meetings">Adult Meetings</a></li>
+                        </ul>
+                    </nav>
+                    <div class="header-actions">
+                        <% if (user) { %>
+                            <a href="/user/dashboard" class="btn btn-secondary">Dashboard</a>
+                            <a href="/listings/new/create" class="btn btn-primary">Post Ad</a>
+                        <% } else { %>
+                            <a href="/auth/login" class="btn btn-secondary">Login</a>
+                            <a href="/auth/register" class="btn btn-primary">Register</a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>

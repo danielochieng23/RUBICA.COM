@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <div class="text-center">
+        <i class="fas fa-exclamation-triangle" style="font-size: 5rem; color: var(--error-color); margin-bottom: 30px;"></i>
+        <h1>Error</h1>
+        <p class="lead"><%= message || 'An error occurred' %></p>
+        
+        <% if (typeof error !== 'undefined' && error && error.message) { %>
+            <div class="alert alert-error mt-4" style="max-width: 600px; margin: 0 auto;">
+                <strong>Error Details:</strong> <%= error.message %>
+            </div>
+        <% } %>
+        
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">Go to Homepage</a>
+            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

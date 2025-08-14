@@ -1,0 +1,85 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <h1>My Profile</h1>
+    
+    <% if (success) { %>
+        <div class="alert alert-success">
+            <%= success %>
+        </div>
+    <% } %>
+    
+    <% if (error) { %>
+        <div class="alert alert-error">
+            <%= error %>
+        </div>
+    <% } %>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <form action="/user/profile" method="POST">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" value="<%= user.username %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" value="<%= user.email %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" value="<%= user.phone || '' %>">
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="city" class="form-label">City</label>
+                            <select id="city" name="city" class="form-control">
+                                <option value="Mumbai" <%= user.location.city === 'Mumbai' ? 'selected' : '' %>>Mumbai</option>
+                                <option value="Delhi" <%= user.location.city === 'Delhi' ? 'selected' : '' %>>Delhi</option>
+                                <option value="Bangalore" <%= user.location.city === 'Bangalore' ? 'selected' : '' %>>Bangalore</option>
+                                <option value="Kolkata" <%= user.location.city === 'Kolkata' ? 'selected' : '' %>>Kolkata</option>
+                                <option value="Chennai" <%= user.location.city === 'Chennai' ? 'selected' : '' %>>Chennai</option>
+                                <option value="Hyderabad" <%= user.location.city === 'Hyderabad' ? 'selected' : '' %>>Hyderabad</option>
+                                <option value="Pune" <%= user.location.city === 'Pune' ? 'selected' : '' %>>Pune</option>
+                                <option value="Ahmedabad" <%= user.location.city === 'Ahmedabad' ? 'selected' : '' %>>Ahmedabad</option>
+                                <option value="Jaipur" <%= user.location.city === 'Jaipur' ? 'selected' : '' %>>Jaipur</option>
+                                <option value="Goa" <%= user.location.city === 'Goa' ? 'selected' : '' %>>Goa</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" id="state" name="state" class="form-control" value="<%= user.location.state || '' %>">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Account Information</h4>
+                    <p>
+                        <strong>Account Type:</strong> <%= user.role %><br>
+                        <strong>Member Since:</strong> <%= new Date(user.createdAt).toLocaleDateString() %><br>
+                        <strong>Last Login:</strong> <%= new Date(user.lastLogin).toLocaleDateString() %>
+                    </p>
+                    
+                    <hr>
+                    
+                    <a href="/user/change-password" class="btn btn-secondary btn-block">Change Password</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

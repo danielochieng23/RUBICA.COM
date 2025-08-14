@@ -1,0 +1,111 @@
+<%- include('../partials/header') %>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Find Adult Services in India</h1>
+            <p class="mb-4">Connect with verified profiles safely and discreetly</p>
+            
+            <!-- Search Bar -->
+            <form action="/search" method="GET" class="search-bar">
+                <input type="text" name="q" placeholder="What are you looking for?" />
+                <select name="city">
+                    <option value="">All Cities</option>
+                    <% popularCities.forEach(city => { %>
+                        <option value="<%= city %>"><%= city %></option>
+                    <% }) %>
+                </select>
+                <select name="category">
+                    <option value="">All Categories</option>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat.slug %>"><%= cat.name %></option>
+                    <% }) %>
+                </select>
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="text-center">Browse Categories</h2>
+            <p class="text-center mb-5">Find exactly what you're looking for</p>
+            
+            <div class="categories-grid">
+                <% categories.forEach(category => { %>
+                    <a href="/listings/category/<%= category.slug %>" class="category-card">
+                        <i class="fas <%= category.icon %>"></i>
+                        <h3><%= category.name %></h3>
+                        <p>Browse listings</p>
+                    </a>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Listings -->
+    <% if (featuredListings && featuredListings.length > 0) { %>
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Featured Listings</h2>
+            <div class="listings-grid">
+                <% featuredListings.forEach(listing => { %>
+                    <div class="listing-card">
+                        <a href="/listings/<%= listing._id %>">
+                            <div class="listing-image">
+                                <% if (listing.images && listing.images.length > 0) { %>
+                                    <img src="<%= listing.images[0].url %>" alt="<%= listing.title %>">
+                                <% } else { %>
+                                    <img src="/images/placeholder.jpg" alt="<%= listing.title %>">
+                                <% } %>
+                                <% if (listing.features.isPremium) { %>
+                                    <span class="listing-badge">Premium</span>
+                                <% } %>
+                            </div>
+                            <div class="listing-content">
+                                <h4 class="listing-title"><%= listing.title %></h4>
+                                <div class="listing-meta">
+                                    <span class="listing-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <%= listing.location.city %>
+                                    </span>
+                                    <span class="listing-price"><%= listing.formattedPrice %></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+    <% } %>
+
+    <!-- Popular Cities -->
+    <section class="py-5" style="background: #fff;">
+        <div class="container">
+            <h2 class="text-center mb-4">Popular Cities</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+                <% popularCities.forEach(city => { %>
+                    <a href="/search?city=<%= city %>" class="btn btn-secondary">
+                        <i class="fas fa-map-marker-alt"></i> <%= city %>
+                    </a>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: #fff;">
+        <div class="container text-center">
+            <h2 style="color: #fff;">Start Advertising Today</h2>
+            <p class="mb-4">Post your ad and reach thousands of potential customers</p>
+            <a href="/auth/register" class="btn" style="background: #fff; color: var(--primary-color); padding: 15px 40px; font-size: 1.1rem;">
+                Post Your Ad Now
+            </a>
+        </div>
+    </section>
+</main>
+
+<%- include('../partials/footer') %>

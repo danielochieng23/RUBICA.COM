@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <h1>Search Results</h1>
+    
+    <div class="mb-4">
+        <% if (searchQuery || selectedCity || selectedCategory) { %>
+            <p>
+                Showing results 
+                <% if (searchQuery) { %>for "<strong><%= searchQuery %></strong>"<% } %>
+                <% if (selectedCity) { %>in <strong><%= selectedCity %></strong><% } %>
+                <% if (selectedCategory) { %>under <strong><%= selectedCategory %></strong><% } %>
+            </p>
+        <% } %>
+        <p><strong><%= totalListings %></strong> listings found</p>
+    </div>
+    
+    <% if (listings && listings.length > 0) { %>
+        <div class="listings-grid">
+            <% listings.forEach(listing => { %>
+                <div class="listing-card">
+                    <a href="/listings/<%= listing._id %>">
+                        <div class="listing-image">
+                            <% if (listing.images && listing.images.length > 0) { %>
+                                <img src="<%= listing.images[0].url %>" alt="<%= listing.title %>">
+                            <% } else { %>
+                                <img src="/images/placeholder.jpg" alt="<%= listing.title %>">
+                            <% } %>
+                        </div>
+                        <div class="listing-content">
+                            <h4 class="listing-title"><%= listing.title %></h4>
+                            <div class="listing-meta">
+                                <span class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <%= listing.location.city %>
+                                </span>
+                                <span class="listing-price"><%= listing.formattedPrice %></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+        
+        <% if (totalPages > 1) { %>
+            <nav class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <% for(let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                            <a class="page-link" href="?q=<%= searchQuery %>&city=<%= selectedCity %>&category=<%= selectedCategory %>&page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    <% } else { %>
+        <div class="text-center py-5">
+            <p class="lead">No listings found matching your search criteria.</p>
+            <a href="/" class="btn btn-primary">Browse All Listings</a>
+        </div>
+    <% } %>
+</main>
+
+<%- include('../partials/footer') %>

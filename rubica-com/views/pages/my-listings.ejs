@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <h1>My Listings</h1>
+    
+    <% if (deleted) { %>
+        <div class="alert alert-success">
+            Listing deleted successfully.
+        </div>
+    <% } %>
+    
+    <div class="mb-4">
+        <a href="/listings/new/create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Post New Ad
+        </a>
+        
+        <div class="btn-group float-right" role="group">
+            <a href="?status=all" class="btn btn-<%= selectedStatus === 'all' ? 'primary' : 'secondary' %>">All</a>
+            <a href="?status=active" class="btn btn-<%= selectedStatus === 'active' ? 'primary' : 'secondary' %>">Active</a>
+            <a href="?status=pending" class="btn btn-<%= selectedStatus === 'pending' ? 'primary' : 'secondary' %>">Pending</a>
+            <a href="?status=inactive" class="btn btn-<%= selectedStatus === 'inactive' ? 'primary' : 'secondary' %>">Inactive</a>
+        </div>
+    </div>
+    
+    <% if (listings && listings.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>City</th>
+                        <th>Views</th>
+                        <th>Status</th>
+                        <th>Posted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% listings.forEach(listing => { %>
+                        <tr>
+                            <td>
+                                <a href="/listings/<%= listing._id %>" target="_blank">
+                                    <%= listing.title %>
+                                </a>
+                            </td>
+                            <td><%= listing.category %></td>
+                            <td><%= listing.location.city %></td>
+                            <td><%= listing.stats.views %></td>
+                            <td>
+                                <span class="badge badge-<%= listing.status === 'active' ? 'success' : listing.status === 'pending' ? 'warning' : 'secondary' %>">
+                                    <%= listing.status %>
+                                </span>
+                            </td>
+                            <td><%= new Date(listing.createdAt).toLocaleDateString() %></td>
+                            <td>
+                                <a href="/listings/<%= listing._id %>/edit" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="/listings/<%= listing._id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this listing?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+        
+        <% if (totalPages > 1) { %>
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <% for(let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                            <a class="page-link" href="?status=<%= selectedStatus %>&page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    <% } else { %>
+        <div class="text-center py-5">
+            <p class="lead">You haven't posted any listings yet.</p>
+            <a href="/listings/new/create" class="btn btn-primary">Post Your First Ad</a>
+        </div>
+    <% } %>
+</main>
+
+<%- include('../partials/footer') %>

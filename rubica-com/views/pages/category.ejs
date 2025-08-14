@@ -1,0 +1,88 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <h1><%= categoryName %></h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <p><strong><%= totalListings %></strong> listings found</p>
+        </div>
+        <div class="col-md-4">
+            <form method="GET" action="/listings/category/<%= category %>">
+                <div class="row">
+                    <div class="col-6">
+                        <select name="city" class="form-control" onchange="this.form.submit()">
+                            <option value="">All Cities</option>
+                            <option value="Mumbai" <%= selectedCity === 'Mumbai' ? 'selected' : '' %>>Mumbai</option>
+                            <option value="Delhi" <%= selectedCity === 'Delhi' ? 'selected' : '' %>>Delhi</option>
+                            <option value="Bangalore" <%= selectedCity === 'Bangalore' ? 'selected' : '' %>>Bangalore</option>
+                            <option value="Kolkata" <%= selectedCity === 'Kolkata' ? 'selected' : '' %>>Kolkata</option>
+                            <option value="Chennai" <%= selectedCity === 'Chennai' ? 'selected' : '' %>>Chennai</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select name="sort" class="form-control" onchange="this.form.submit()">
+                            <option value="recent" <%= selectedSort === 'recent' ? 'selected' : '' %>>Most Recent</option>
+                            <option value="premium" <%= selectedSort === 'premium' ? 'selected' : '' %>>Premium First</option>
+                            <option value="views" <%= selectedSort === 'views' ? 'selected' : '' %>>Most Viewed</option>
+                            <option value="price-low" <%= selectedSort === 'price-low' ? 'selected' : '' %>>Price: Low to High</option>
+                            <option value="price-high" <%= selectedSort === 'price-high' ? 'selected' : '' %>>Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <% if (listings && listings.length > 0) { %>
+        <div class="listings-grid">
+            <% listings.forEach(listing => { %>
+                <div class="listing-card">
+                    <a href="/listings/<%= listing._id %>">
+                        <div class="listing-image">
+                            <% if (listing.images && listing.images.length > 0) { %>
+                                <img src="<%= listing.images[0].url %>" alt="<%= listing.title %>">
+                            <% } else { %>
+                                <img src="/images/placeholder.jpg" alt="<%= listing.title %>">
+                            <% } %>
+                            <% if (listing.features.isPremium) { %>
+                                <span class="listing-badge">Premium</span>
+                            <% } %>
+                        </div>
+                        <div class="listing-content">
+                            <h4 class="listing-title"><%= listing.title %></h4>
+                            <div class="listing-meta">
+                                <span class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <%= listing.location.city %>
+                                </span>
+                                <span class="listing-price"><%= listing.formattedPrice %></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+        
+        <% if (totalPages > 1) { %>
+            <nav class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <% for(let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                            <a class="page-link" href="?city=<%= selectedCity %>&sort=<%= selectedSort %>&page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    <% } else { %>
+        <div class="text-center py-5">
+            <p class="lead">No listings found in this category.</p>
+            <a href="/" class="btn btn-primary">Browse All Categories</a>
+        </div>
+    <% } %>
+</main>
+
+<%- include('../partials/footer') %>

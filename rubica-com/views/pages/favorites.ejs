@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+
+<main class="container py-5">
+    <h1>My Favorites</h1>
+    
+    <% if (favorites && favorites.length > 0) { %>
+        <div class="listings-grid">
+            <% favorites.forEach(listing => { %>
+                <div class="listing-card">
+                    <a href="/listings/<%= listing._id %>">
+                        <div class="listing-image">
+                            <% if (listing.images && listing.images.length > 0) { %>
+                                <img src="<%= listing.images[0].url %>" alt="<%= listing.title %>">
+                            <% } else { %>
+                                <img src="/images/placeholder.jpg" alt="<%= listing.title %>">
+                            <% } %>
+                        </div>
+                        <div class="listing-content">
+                            <h4 class="listing-title"><%= listing.title %></h4>
+                            <div class="listing-meta">
+                                <span class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <%= listing.location.city %>
+                                </span>
+                                <span class="listing-price"><%= listing.formattedPrice %></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="text-center py-5">
+            <p class="lead">You haven't added any favorites yet.</p>
+            <a href="/" class="btn btn-primary">Browse Listings</a>
+        </div>
+    <% } %>
+</main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubica - Adult Classified Ads</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+</head>
+<body>
+    <!-- Age Verification Modal -->
+    <div id="ageVerificationModal" class="modal">
+        <div class="modal-content">
+            <h2>Age Verification Required</h2>
+            <p>This website contains adult content. You must be 18 years or older to continue.</p>
+            <div class="age-buttons">
+                <button class="btn btn-primary" onclick="acceptAge()">I am 18+ years old</button>
+                <button class="btn btn-secondary" onclick="rejectAge()">I am under 18</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html">Rubica.com</a></h1>
+                <span class="tagline">Your Premium Adult Classified Portal</span>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="post-ad.html">Post Ad</a></li>
+                    <li><a href="#" id="loginBtn">Login</a></li>
+                    <li><a href="#" id="registerBtn">Register</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Location and Search Bar -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-wrapper">
+                <div class="location-selector">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <select id="citySelect">
+                        <option value="">Select City</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="pune">Pune</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="ahmedabad">Ahmedabad</option>
+                        <option value="goa">Goa</option>
+                        <option value="jaipur">Jaipur</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search ads...">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Categories -->
+    <section class="categories-section">
+        <div class="container">
+            <h2>Browse Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card" data-category="call-girls">
+                    <div class="category-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Call Girls</h3>
+                    <p>Premium escort services</p>
+                    <span class="ad-count" id="callGirlsCount">0 ads</span>
+                </div>
+                <div class="category-card" data-category="massages">
+                    <div class="category-icon">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h3>Massages</h3>
+                    <p>Relaxing massage services</p>
+                    <span class="ad-count" id="massagesCount">0 ads</span>
+                </div>
+                <div class="category-card" data-category="male-escorts">
+                    <div class="category-icon">
+                        <i class="fas fa-male"></i>
+                    </div>
+                    <h3>Male Escorts</h3>
+                    <p>Male companion services</p>
+                    <span class="ad-count" id="maleEscortsCount">0 ads</span>
+                </div>
+                <div class="category-card" data-category="transsexual">
+                    <div class="category-icon">
+                        <i class="fas fa-venus-mars"></i>
+                    </div>
+                    <h3>Transsexual</h3>
+                    <p>Trans escort services</p>
+                    <span class="ad-count" id="transsexualCount">0 ads</span>
+                </div>
+                <div class="category-card" data-category="adult-meetings">
+                    <div class="category-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Adult Meetings</h3>
+                    <p>Casual encounters</p>
+                    <span class="ad-count" id="adultMeetingsCount">0 ads</span>
+                </div>
+                <div class="category-card" data-category="bdsm">
+                    <div class="category-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>BDSM</h3>
+                    <p>Fetish and BDSM services</p>
+                    <span class="ad-count" id="bdsmCount">0 ads</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Ads -->
+    <section class="featured-ads">
+        <div class="container">
+            <h2>Featured Ads</h2>
+            <div class="ads-grid" id="featuredAdsGrid">
+                <!-- Ads will be loaded dynamically -->
+            </div>
+            <div class="view-more">
+                <button class="btn btn-outline" onclick="loadMoreAds()">View More Ads</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Ads -->
+    <section class="recent-ads">
+        <div class="container">
+            <h2>Recent Ads</h2>
+            <div class="ads-grid" id="recentAdsGrid">
+                <!-- Ads will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="switchToRegister">Register here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Name:</label>
+                    <input type="text" id="registerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email:</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password:</label>
+                    <input type="password" id="registerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password:</label>
+                    <input type="password" id="registerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                    <label for="agreeTerms">I agree to the <a href="terms.html">Terms and Conditions</a></label>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+                <p class="form-footer">Already have an account? <a href="#" id="switchToLogin">Login here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Rubica.com</h3>
+                    <p>Your premium adult classified portal connecting people across India.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="post-ad.html">Post Ad</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="category.html?cat=call-girls">Call Girls</a></li>
+                        <li><a href="category.html?cat=massages">Massages</a></li>
+                        <li><a href="category.html?cat=male-escorts">Male Escorts</a></li>
+                        <li><a href="category.html?cat=transsexual">Transsexual</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="safety.html">Safety Guidelines</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Rubica.com. All rights reserved. | 18+ Only</p>
+                <p class="disclaimer">This website is for adults only. All persons appearing on this site are 18 years or older.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
